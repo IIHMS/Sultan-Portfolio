@@ -63,6 +63,25 @@
       text-decoration: none;
       font-weight: bold;
     }
+
+.cv-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.cv-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+    
     footer {
       text-align: center;
       padding: 30px;
@@ -159,6 +178,16 @@
       <!-- Add more projects by copying a card -->
     </div>
   </section>
+
+  <section>
+  <h2>Resume</h2>
+  <p>You can view or download my CV below.</p>
+
+  <a href="CV.pdf" target="_blank" class="cv-btn">
+    📄 View My CV (PDF)
+  </a>
+</section>
+
 
   <section>
     <h2>Contact</h2>
