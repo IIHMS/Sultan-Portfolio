@@ -1,194 +1,576 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sultan Alqumaya | Portfolio</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-    }
-    header {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #7c3aed, #2563eb);
-    }
-    header h1 {
-      margin: 0;
-      font-size: 40px;
-    }
-    header p {
-      margin-top: 10px;
-      font-size: 18px;
-      opacity: 0.9;
-    }
-    section {
-      padding: 50px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    h2 {
-      margin-bottom: 30px;
-      font-size: 28px;
-      border-bottom: 2px solid #7c3aed;
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #111827;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    }
-    .card h3 {
-      margin-top: 0;
-      color: #a78bfa;
-    }
-    .card p {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .card a {
-      display: inline-block;
-      margin-top: 10px;
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: bold;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sultan Alqumaya</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --black:#040408;--white:#f0ede8;--accent:#7b5ea7;--accent2:#4ecdc4;--accent3:#ff6b35;
+    --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--black);color:var(--white);
+    font-family:'Space Grotesk',sans-serif;
+    overflow-x:hidden;cursor:none;
+  }
+  #cursor{
+    width:12px;height:12px;background:var(--accent2);border-radius:50%;
+    position:fixed;pointer-events:none;z-index:9999;
+    transition:transform 0.15s ease,background 0.3s;
+    transform:translate(-50%,-50%);
+  }
+  #cursor-trail{
+    width:40px;height:40px;border:1px solid rgba(78,205,196,0.3);border-radius:50%;
+    position:fixed;pointer-events:none;z-index:9998;
+    transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    transform:translate(-50%,-50%);
+  }
 
-    /* CV Button */
-    .cv-btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 14px 30px;
-      background: linear-gradient(135deg, #7c3aed, #2563eb);
-      color: white;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-    .cv-btn:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
+  /* Canvas BG */
+  #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.6}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #020617;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
+  /* Nav */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;
+    backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);
+    background:rgba(4,4,8,0.7);
+  }
+  .nav-logo{
+    font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    letter-spacing:-0.02em;
+  }
+  .nav-links{display:flex;gap:2.5rem}
+  .nav-links a{
+    color:rgba(240,237,232,0.6);text-decoration:none;font-size:0.85rem;
+    font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+    transition:color 0.3s;position:relative;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+    background:var(--accent2);transition:width 0.3s;
+  }
+  .nav-links a:hover{color:var(--white)}
+  .nav-links a:hover::after{width:100%}
+
+  /* Hero */
+  #hero{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    position:relative;z-index:1;padding:0 3rem;text-align:center;
+  }
+  .hero-content{max-width:900px}
+  .hero-tag{
+    display:inline-block;
+    border:1px solid rgba(78,205,196,0.4);
+    color:var(--accent2);padding:0.4rem 1.2rem;
+    border-radius:100px;font-size:0.8rem;letter-spacing:0.12em;
+    text-transform:uppercase;margin-bottom:2rem;
+    animation:fadeUp 1s ease both;
+  }
+  .hero-name{
+    font-family:'Syne',sans-serif;font-size:clamp(3.5rem,8vw,7rem);
+    font-weight:800;line-height:0.95;letter-spacing:-0.04em;
+    animation:fadeUp 1s ease 0.1s both;
+  }
+  .hero-name span{
+    display:block;
+    background:linear-gradient(135deg,var(--white) 30%,var(--accent2) 70%,var(--accent));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-sub{
+    font-size:1.1rem;color:rgba(240,237,232,0.5);margin-top:1.5rem;
+    font-weight:300;letter-spacing:0.04em;line-height:1.8;
+    animation:fadeUp 1s ease 0.2s both;
+  }
+  .hero-sub strong{color:var(--accent2);font-weight:500}
+  .hero-cta{
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:3rem;
+    animation:fadeUp 1s ease 0.3s both;
+  }
+  .btn{
+    padding:0.85rem 2rem;border-radius:100px;font-size:0.9rem;
+    font-weight:500;text-decoration:none;letter-spacing:0.04em;
+    transition:all 0.3s;display:inline-flex;align-items:center;gap:0.5rem;
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:var(--black);border:none;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(78,205,196,0.3)}
+  .btn-outline{
+    border:1px solid var(--glass-border);color:var(--white);background:transparent;
+  }
+  .btn-outline:hover{border-color:var(--accent2);color:var(--accent2);transform:translateY(-2px)}
+
+  .scroll-hint{
+    position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+    color:rgba(240,237,232,0.3);font-size:0.75rem;letter-spacing:0.1em;
+    text-transform:uppercase;animation:float 3s ease-in-out infinite;
+  }
+  .scroll-line{width:1px;height:50px;background:linear-gradient(var(--accent2),transparent)}
+
+  /* Sections */
+  section{position:relative;z-index:1;padding:6rem 3rem}
+  .section-label{
+    font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--accent2);margin-bottom:1rem;display:flex;align-items:center;gap:1rem;
+  }
+  .section-label::before{content:'';flex:0 0 30px;height:1px;background:var(--accent2)}
+  .section-title{
+    font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);
+    font-weight:800;letter-spacing:-0.03em;margin-bottom:1rem;
+  }
+
+  /* About */
+  #about{max-width:1200px;margin:0 auto}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:4rem}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+  .stat-card{
+    background:var(--glass);border:1px solid var(--glass-border);
+    border-radius:16px;padding:1.5rem;
+    transition:all 0.3s;
+  }
+  .stat-card:hover{border-color:rgba(78,205,196,0.3);transform:translateY(-4px)}
+  .stat-num{
+    font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .stat-label{font-size:0.85rem;color:rgba(240,237,232,0.5);margin-top:0.3rem}
+  .about-text{font-size:1.05rem;color:rgba(240,237,232,0.7);line-height:1.9}
+
+  /* Skills Visual */
+  .skills-visual{position:relative}
+  .skill-orbs{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;padding:2rem}
+  .orb{
+    padding:0.6rem 1.4rem;border-radius:100px;font-size:0.85rem;font-weight:500;
+    transition:all 0.3s;cursor:default;
+  }
+  .orb-teal{background:rgba(78,205,196,0.1);border:1px solid rgba(78,205,196,0.3);color:var(--accent2)}
+  .orb-purple{background:rgba(123,94,167,0.1);border:1px solid rgba(123,94,167,0.3);color:#b794f4}
+  .orb-orange{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#f6a35a}
+  .orb:hover{transform:scale(1.08);box-shadow:0 8px 30px rgba(78,205,196,0.2)}
+
+  /* Projects */
+  #projects{max-width:1200px;margin:0 auto}
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:4rem}
+  .project-card{
+    background:var(--glass);border:1px solid var(--glass-border);
+    border-radius:20px;padding:2rem;
+    transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    position:relative;overflow:hidden;cursor:default;
+  }
+  .project-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent2),transparent);
+    opacity:0;transition:opacity 0.4s;
+  }
+  .project-card:hover{
+    border-color:rgba(78,205,196,0.2);
+    transform:translateY(-6px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
+  }
+  .project-card:hover::before{opacity:1}
+  .project-card.featured{
+    grid-column:span 2;
+    background:linear-gradient(135deg,rgba(123,94,167,0.1),rgba(78,205,196,0.05));
+    border-color:rgba(123,94,167,0.3);
+  }
+  .project-badge{
+    display:inline-flex;align-items:center;gap:0.4rem;
+    font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+    padding:0.3rem 0.8rem;border-radius:100px;margin-bottom:1.2rem;
+    font-weight:500;
+  }
+  .badge-vr{background:rgba(78,205,196,0.1);color:var(--accent2);border:1px solid rgba(78,205,196,0.2)}
+  .badge-game{background:rgba(255,107,53,0.1);color:#f6a35a;border:1px solid rgba(255,107,53,0.2)}
+  .badge-ar{background:rgba(123,94,167,0.1);color:#b794f4;border:1px solid rgba(123,94,167,0.2)}
+  .badge-app{background:rgba(100,200,100,0.1);color:#86e086;border:1px solid rgba(100,200,100,0.2)}
+  .badge-wip{background:rgba(200,160,50,0.1);color:#f0c060;border:1px solid rgba(200,160,50,0.2)}
+  .project-title{
+    font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;
+    margin-bottom:0.8rem;letter-spacing:-0.02em;
+  }
+  .project-desc{font-size:0.9rem;color:rgba(240,237,232,0.55);line-height:1.7;margin-bottom:1.5rem}
+  .project-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem}
+  .tag{
+    font-size:0.72rem;padding:0.25rem 0.7rem;border-radius:6px;
+    background:rgba(255,255,255,0.05);color:rgba(240,237,232,0.4);
+    border:1px solid rgba(255,255,255,0.07);letter-spacing:0.04em;
+  }
+  .project-link{
+    display:inline-flex;align-items:center;gap:0.5rem;
+    color:var(--accent2);font-size:0.85rem;font-weight:500;text-decoration:none;
+    transition:gap 0.3s;
+  }
+  .project-link:hover{gap:0.8rem}
+  .project-icon{
+    font-size:3rem;margin-bottom:1rem;display:block;
+    filter:drop-shadow(0 0 20px rgba(78,205,196,0.3));
+  }
+
+  /* Certs */
+  #certs{max-width:1200px;margin:0 auto}
+  .certs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:3rem}
+  .cert-card{
+    display:flex;align-items:center;gap:1rem;
+    background:var(--glass);border:1px solid var(--glass-border);
+    border-radius:12px;padding:1.2rem 1.5rem;transition:all 0.3s;
+  }
+  .cert-card:hover{border-color:rgba(78,205,196,0.2);transform:translateX(6px)}
+  .cert-icon{
+    width:42px;height:42px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;flex-shrink:0;
+  }
+  .cert-name{font-size:0.9rem;font-weight:500;margin-bottom:0.15rem}
+  .cert-org{font-size:0.78rem;color:rgba(240,237,232,0.4)}
+
+  /* Contact */
+  #contact{max-width:1200px;margin:0 auto;text-align:center}
+  .contact-box{
+    margin-top:4rem;background:linear-gradient(135deg,rgba(123,94,167,0.15),rgba(78,205,196,0.08));
+    border:1px solid rgba(123,94,167,0.25);border-radius:24px;
+    padding:4rem;position:relative;overflow:hidden;
+  }
+  .contact-box::before{
+    content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+    background:radial-gradient(ellipse at center,rgba(78,205,196,0.05) 0%,transparent 60%);
+    animation:rotate 20s linear infinite;
+  }
+  .contact-box h3{
+    font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;
+    letter-spacing:-0.03em;margin-bottom:1rem;position:relative;
+  }
+  .contact-box p{color:rgba(240,237,232,0.5);margin-bottom:2.5rem;position:relative}
+  .contact-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;position:relative}
+  .contact-link{
+    display:inline-flex;align-items:center;gap:0.6rem;
+    padding:0.8rem 1.8rem;border-radius:100px;text-decoration:none;
+    border:1px solid var(--glass-border);color:var(--white);
+    font-size:0.9rem;font-weight:500;transition:all 0.3s;
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .contact-link:hover{border-color:var(--accent2);color:var(--accent2);transform:translateY(-3px)}
+
+  footer{
+    text-align:center;padding:3rem;color:rgba(240,237,232,0.2);
+    font-size:0.8rem;border-top:1px solid var(--glass-border);position:relative;z-index:1;
+  }
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-10px)}}
+  @keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    section{padding:4rem 1.5rem}
+    .about-grid{grid-template-columns:1fr}
+    .projects-grid{grid-template-columns:1fr}
+    .project-card.featured{grid-column:span 1}
+    .certs-grid{grid-template-columns:1fr}
+    .contact-box{padding:2rem}
+  }
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>Sultan Alqumaya</h1>
-    <p>XR & Game Developer • Flutter Developer</p>
-  </header>
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+<canvas id="bg-canvas"></canvas>
 
-  <section>
-    <h2>About Me</h2>
-    <p>
-      I’m a Computer Science student passionate about XR and Game development.
-      I enjoy building immersive experiences using Unity and C#, and I focus on creating
-      environments that bring ideas to life through interactivity and user-centered design.
-      Recently began working with Flutter as a beginner mobile developer, eager to grow
-      skills in cross-platform app development.
+<nav>
+  <div class="nav-logo">SA</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#certs">Certs</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag">🟢 Available for Opportunities</div>
+    <h1 class="hero-name">
+      <span>Sultan</span>
+      <span>Alqumaya</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>XR & Game Developer </strong> — Building immersive worlds with Unity, VR & AR.<br>
+      <strong>Flutter Developer </strong> — Beginner mobile developer eager to grow skills in app development.<br>
+      CS Student @ IMSIU · Riyadh, Saudi Arabia
     </p>
-  </section>
-
-  <section>
-    <h2>Projects</h2>
-    <div class="projects">
-
-      <div class="card">
-        <h3>Mulabi - VR Umrah Simulator</h3>
-        <p>
-          • Developed a VR simulation where users learn how to perform a realistic Umrah. 
-          <br>• Virtual experience simulating Umrah rituals in Mecca.
-        </p>
-        <a href="https://linktr.ee/SultanAlqumaya" target="_blank">View Project</a>
-      </div>
-
-      <div class="card">
-        <h3>Last Repair – 3D Horror Puzzle Game</h3>
-        <p>
-          • Designed and developed a 3D horror puzzle game using Unity.
-          <br>• Implemented interactive puzzles and room-based progression systems.
-        </p>
-        <a href="https://ihms.itch.io/lastrepair" target="_blank">View Project</a>
-      </div>
-
-      <div class="card">
-        <h3>AR Virtual Car Showroom</h3>
-        <p>
-          • AR application allowing users to place and interact with 3D car models
-          in real-world environments.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Tourism App</h3>
-        <p>
-          • Tourism mobile application built with Flutter.
-          <br>• Displays destinations using API-based data.
-        </p>
-        <a href="https://github.com/IIHMS/Tourism-App">View Project</a>
-      </div>
-
-      <div class="card">
-        <h3>Mohra App (In Development)</h3>
-        <p>
-          All-in-one service platform designed to enhance quality of life through
-          a unified mobile experience.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>VR Grocery Store Simulator (In Development)</h3>
-        <p>
-          • VR simulation with realistic store tasks and immersive interactions.
-        </p>
-      </div>
-
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
+      <a href="#contact" class="btn btn-outline">Get In Touch</a>
     </div>
-  </section>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
 
-  <!-- Resume Section -->
-  <section>
-    <h2>Resume</h2>
-    <p>You can view or download my CV below:</p>
-    <a href="Cv.pdf" target="_blank" class="cv-btn">
-      📄 View My CV (PDF)
-    </a>
-  </section>
+<section id="about">
+  <div class="section-label">About Me</div>
+  <h2 class="section-title">Building the<br>Digital Future</h2>
+  <div class="about-grid">
+    <div>
+      <p class="about-text">
+        I'm a passionate Computer Science student at IMSIU with a deep love for building immersive digital experiences. From 3D games to VR simulations and AR experiences, my work sits at the intersection of technology and reality.
+      </p>
+      <p class="about-text" style="margin-top:1.2rem">
+        I specialize in XR & Game development using Unity and continuously push the boundaries of what's possible in immersive experiences. Currently, I'm also expanding into mobile development with Flutter.
+      </p>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">XR Platforms</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Ideas in Progress</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label" style="margin-bottom:1.5rem">Technical Arsenal</div>
+      <div class="skill-orbs">
+        <span class="orb orb-teal">Unity 3D</span>
+        <span class="orb orb-teal">VR Development</span>
+        <span class="orb orb-teal">AR Development</span>
+        <span class="orb orb-teal">XR</span>
+        <span class="orb orb-purple">C#</span>
+        <span class="orb orb-purple">Dart</span>
+        <span class="orb orb-purple">Java</span>
+        <span class="orb orb-purple">Lua</span>
+        <span class="orb orb-orange">Flutter</span>
+        <span class="orb orb-orange">Figma</span>
+        <span class="orb orb-orange">Supabase</span>
+        <span class="orb orb-orange">Canva</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Email: Alqmysltan@gmail.com</p>
-    <p>
-      LinkedIn:
-      <a href="https://linkedin.com/in/sultan-alqumaya" target="_blank">
-        linkedin.com/in/Sultan-Alqumaya
-      </a>
-    </p>
-    <p>Phone: +966 551742456</p>
-  </section>
+<section id="projects" class="reveal">
+  <div class="section-label">Work</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid">
 
-  <footer>
-    © 2026 Sultan Alqumaya – Portfolio
-  </footer>
+    <div class="project-card featured">
+      <span class="project-icon">🕌</span>
+      <span class="project-badge badge-vr">● VR Experience</span>
+      <div class="project-title">Mulabi — VR Umrah Simulator</div>
+      <p class="project-desc">A deeply immersive VR simulation allowing users to virtually experience and learn the rituals of Umrah in Mecca. Designed with accuracy and reverence, offering an educational journey unlike any other.</p>
+      <div class="project-tags">
+        <span class="tag">Unity</span><span class="tag">VR</span><span class="tag">C#</span>
+        <span class="tag">XR Interaction Toolkit</span><span class="tag">3D Environments</span>
+      </div>
+      <a href="https://linktr.ee/SultanAlqumaya" class="project-link">View Project →</a>
+    </div>
 
+    <div class="project-card">
+      <span class="project-icon">👻</span>
+      <span class="project-badge badge-game">● Game</span>
+      <div class="project-title">Last Repair — 3D Horror Puzzle</div>
+      <p class="project-desc">A spine-chilling 3D horror puzzle game with interactive room-based progression. Focused on atmosphere, immersion, and creative puzzle mechanics.</p>
+      <div class="project-tags">
+        <span class="tag">Unity</span><span class="tag">C#</span><span class="tag">3D Design</span>
+        <span class="tag">Game Design</span>
+      </div>
+      <a href="https://ihms.itch.io/lastrepair" class="project-link">Play on Itch.io →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-icon">🚗</span>
+      <span class="project-badge badge-ar">● AR App</span>
+      <div class="project-title">AR Virtual Car Showroom</div>
+      <p class="project-desc">An AR application letting users place and interact with 3D car models in real-world environments. Intuitive controls for rotation, scaling, and model selection.</p>
+      <div class="project-tags">
+        <span class="tag">Unity</span><span class="tag">AR Foundation</span>
+        <span class="tag">C#</span><span class="tag">3D Models</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <span class="project-icon">🛒</span>
+      <span class="project-badge badge-wip">● In Development</span>
+      <div class="project-title">VR Grocery Store Simulator</div>
+      <p class="project-desc">An immersive VR experience simulating realistic store interactions. Features advanced object manipulation mechanics and spatial UI design.</p>
+      <div class="project-tags">
+        <span class="tag">Unity</span><span class="tag">VR</span>
+        <span class="tag">XR Interaction</span><span class="tag">Physics</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <span class="project-icon">✈️</span>
+      <span class="project-badge badge-app">● Mobile App</span>
+      <div class="project-title">Tourism App</div>
+      <p class="project-desc">A Flutter-built tourism application displaying destinations with API-driven data, rich images, and descriptive information for exploring Saudi Arabia.</p>
+      <div class="project-tags">
+        <span class="tag">Flutter</span><span class="tag">Dart</span>
+        <span class="tag">REST API</span><span class="tag">Supabase</span>
+      </div>
+      <a href="https://github.com/IIHMS/Tourism-App" class="project-link">GitHub →</a>
+    </div>
+
+  </div>
+</section>
+
+<section id="certs" class="reveal">
+  <div class="section-label">Education & Certs</div>
+  <h2 class="section-title">Credentials</h2>
+  <div class="certs-grid" style="margin-top:3rem">
+    <div class="cert-card">
+      <div class="cert-icon" style="background:rgba(78,205,196,0.1)">🎮</div>
+      <div>
+        <div class="cert-name">Game Design & Development Program</div>
+        <div class="cert-org">Tuwaiq Academy</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon" style="background:rgba(123,94,167,0.1)">🥽</div>
+      <div>
+        <div class="cert-name">XR Development Bootcamp</div>
+        <div class="cert-org">Tuwaiq Academy & Metaverse Academy</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon" style="background:rgba(255,107,53,0.1)">🔧</div>
+      <div>
+        <div class="cert-name">ITIL Foundation — IT Service Management</div>
+        <div class="cert-org">Tuwaiq Academy</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon" style="background:rgba(100,200,100,0.1)">🛡️</div>
+      <div>
+        <div class="cert-name">IBM SkillsBuild Cybersecurity Certificate</div>
+        <div class="cert-org">IBM</div>
+      </div>
+    </div>
+    <div class="cert-card" style="grid-column:span 2;border-color:rgba(78,205,196,0.2)">
+      <div class="cert-icon" style="background:rgba(78,205,196,0.1)">🎓</div>
+      <div>
+        <div class="cert-name">Bachelor of Computer Science (In Progress)</div>
+        <div class="cert-org">Imam Mohammad Ibn Saud Islamic University (IMSIU) — Riyadh · 2nd Year</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Let's Build<br>Something</h2>
+  <div class="contact-box">
+    <h3>Ready to Create Worlds?</h3>
+    <p>Open to internships, collaborations, and game/XR development opportunities.</p>
+    <div class="contact-links">
+      <a href="mailto:Alqmysltan@gmail.com" class="contact-link">📧 Email Me</a>
+      <a href="https://www.linkedin.com/in/sultan-alqumaya" target="_blank" class="contact-link">💼 LinkedIn</a>
+      <a href="tel:+966551742456" class="contact-link">📞 Phone</a>
+      <a href="https://ihms.itch.io/" target="_blank" class="contact-link">🎮 Itch.io</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Sultan Alqumaya — XR & Game Developer · Riyadh, Saudi Arabia</p>
+</footer>
+
+<script>
+// Custom Cursor
+const cursor=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+function animTrail(){
+  tx+=(mx-tx)*0.12;ty+=(my-ty)*0.12;
+  trail.style.left=tx+'px';trail.style.top=ty+'px';
+  requestAnimationFrame(animTrail);
+}
+animTrail();
+document.querySelectorAll('a,.project-card,.orb,.cert-card,.btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2.5)';cursor.style.background='rgba(78,205,196,0.5)'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';cursor.style.background='var(--accent2)'});
+});
+
+// Particle BG Canvas
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+function createParticle(){
+  return{
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,
+    size:Math.random()*2+0.5,
+    opacity:Math.random()*0.4+0.1,
+    color:Math.random()>0.5?'rgba(78,205,196,':'rgba(123,94,167,'
+  }
+}
+
+for(let i=0;i<80;i++)particles.push(createParticle());
+
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle=p.color+p.opacity+')';
+    ctx.fill();
+    // Connect nearby
+    particles.slice(i+1).forEach(p2=>{
+      const dx=p.x-p2.x,dy=p.y-p2.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);ctx.lineTo(p2.x,p2.y);
+        ctx.strokeStyle='rgba(78,205,196,'+(0.06*(1-dist/120))+')';
+        ctx.lineWidth=0.5;ctx.stroke();
+      }
+    });
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// Scroll reveal
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>
