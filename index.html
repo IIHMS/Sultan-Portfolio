@@ -84,11 +84,14 @@
     text-transform:uppercase;margin-bottom:2rem;
     animation:fadeUp 1s ease both;
   }
-  .hero-name{
-    font-family:'Syne',sans-serif;font-size:clamp(3.5rem,8vw,7rem);
-    font-weight:800;line-height:0.95;letter-spacing:-0.04em;
-    animation:fadeUp 1s ease 0.1s both;
-  }
+.hero-name{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem, 10vw, 7rem); /* ← غير هذا السطر فقط */
+  font-weight:800;
+  line-height:0.95;
+  letter-spacing:-0.04em;
+}
+
   .hero-name span{
     display:block;
     background:linear-gradient(135deg,var(--white) 30%,var(--accent2) 70%,var(--accent));
