@@ -284,23 +284,26 @@
   .reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94)}
   .reveal.visible{opacity:1;transform:translateY(0)}
 
-  @media(max-width:768px){
-    nav{padding:1rem 1.5rem}
-    .nav-links{display:none}
-    section{padding:4rem 1.5rem}
-    .about-grid{grid-template-columns:1fr}
-    .projects-grid{grid-template-columns:1fr}
-    .project-card.featured{grid-column:span 1}
-    .certs-grid{grid-template-columns:1fr}
-    .contact-box{padding:2rem}
-   
-    #hero{padding:0 1.2rem}
-   .hero-name{font-size:3rem}
-   .hero-sub{font-size:0.95rem}
-   .hero-content{width:100%}
-   body{overflow-x:hidden}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  section{padding:4rem 1.5rem}
+  .about-grid{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+  .project-card.featured{grid-column:span 1}
+  .certs-grid{grid-template-columns:1fr} /* ← هذا هو الأهم */
+  .contact-box{padding:2rem}
+  #hero{padding:0 1.2rem}
+  .hero-name{font-size:3rem}
+  .hero-sub{font-size:0.95rem}
+  .hero-content{width:100%}
+  body{overflow-x:hidden}
+  
+  /* إضافة جديدة للـ certs */
+  .cert-card[style*="grid-column:span 2"]{grid-column:span 1 !important}
+  #certs .certs-grid{grid-template-columns:1fr !important}
+}
 
-  }
 </style>
 </head>
 <body>
